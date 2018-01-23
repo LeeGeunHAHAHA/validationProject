@@ -2,36 +2,38 @@
 from random import *
 class IOTest():
 
-    def GetOption():
-        '''
-        To initailize member variable, this function requests information to user
-        :param
-        :return
-        '''
-        port =0  # tmp
-        target = 1 # tmp
-        target2 = 2  # tmp
-        target1_file = open("./iport" + port + "/target" + target, 'w')
-        target2_file = open("./iport" + port + "/target" + target2, 'w')
-        nvme_file = open("./proc/vlun/nvme", 'w')
-        numvf
-        MAXLBA
-        starttrget
-        endtarget
-        position
-        endtarget2
-        queuecnt
-        queuedepth
-        return 0
+    # def GetOption():
+    #     '''
+    #     To initailize member variable, this function requests information to user
+    #     :param
+    #     :return
+    #     '''
+    port = 0  # tmp
+    target = 1 # tmp
+    target2 = 2  # tmp
+
+    target1_file = open("./iport" + port + "/target" + target, 'w')
+    target2_file = open("./iport" + port + "/target" + target2, 'w')
+    nvme_file = open("./proc/vlun/nvme", 'w')
+    port_file = open("/iport0/port", 'w')
+    #numvf
+    #MAXLBA
+    #starttrget
+    #endtarget
+    #position
+    #endtarget2
+    #queuecnt
+    #queuedepth
+    #   return 0
 
 
-#    def ReadyReset():
-#        '''
-#        This function sets argument for reset
-#        :param
-#        :return
-#        '''
-#        return 0
+    #    def ReadyReset():
+    #        '''
+    #        This function sets argument for reset
+    #        :param
+    #        :return
+    #        '''
+    #        return 0
 
 
     def RunTest(numvf, MAXLBA,starttarget, endtarget, position):
@@ -42,59 +44,49 @@ class IOTest():
         return 0
 
 
-    def VF_Enable(target2, numvf,target1_file, target2_file):
-        '''
-            This function sets number of virtual functions
-            :param:
-
-        '''
-        target1_file.write("NumVFs=" + numvf)
-        if (target2 != ""):
-            target2_file.write("NumVFs=" + numvf)
-        return
-
-
-    def MakeQueue(target, target2, starttarget, endtarget2, endtarget, port, queuecnt, queuedepth, nvme_file):
-        '''
-            This function sets Queue Depth and num of Queue
-            :param
-        '''
-        queuetarget = 0
-        for looptarget in range(starttarget, endtarget2):
-            # for VF
-            if (looptarget <= endtarget):
-                targetN_file = open("./iport" + port + "/target" + looptarget, 'w')
-                targetN_file.write("QueueCount=" + queuecnt)
-                targetN_file.write("QueueDepth=" + queuedepth)
-                targetN_file.write("QueueAlignment=0")
-                nvme_file.write("restart=" + looptarget)
-            # for PF
-            else:
-                if (looptarget == endtarget + 1):
-                    queuetarget = target
-                else:
-                    queuetarget = target2
-                queuetarget_file = open("./iport" + port + "/target" + queuetarget, 'w')
-                queuetarget_file.write("QueueCount=" + queuecnt)
-                queuetarget_file.write("QueueDepth=" + queuedepth)
-                queuetarget_file.write("QueueAlignment=0")
-                nvme_file.write("restart=" + queuetarget)
-        return
-
-
-    def SeqTest(numvf, MAXLBA,starttarget, endtarget, position):
+    def SeqTest(numvf, limit_size,start_target, end_target, position,method,port_file):
         '''
             This function starts a sequential test
             :param
         '''
+        for target_cnt in range(start_target, end_target + 1):
+            target = open("/iport0/target" + str(target_cnt), 'w')
+            port_file.write("Testlimits=" + str(limit_size) + "," + str(target_cnt * limit_size) + ",0")
+            target.write("WriteEnabled=1")
+            target.write(method + str(target_cnt) + ",1,1,0,1,0,0,0,-1,60,0,1,1,0,1:1,1:1,0,-0")
+
         return 0
 
 
-    def RandomTest(numvf, MAXLBA,starttarget, endtarget, position):
+    def RandomTest(numvf, MAXLBA,start_target, end_target, position,port_file,method):
         '''
             This function starts a random test
             :param
         '''
+        nsze = MAXLBA
+        randomSize = 0
+        total = 0
+        end_cnt = 0
+        sizeArr = []
+        #        if (end_target == 29):
+        #            end_cnt = 32  # dual
+        #        else:
+        #            end_cnt = 16  # single
+        for target_cnt in range(end_cnt, 0, -1):
+            tmp = nsze / target_cnt
+            randomSize = randint(int(tmp * 0.8), int(tmp * 1.3))
+            nsze -= randomSize
+            total += randomSize
+            sizeArr.append(randomSize)
+
+
+        for target_cnt in range(start_target, end_target + 1):
+            target = open("/iport0/target" + str(target_cnt), 'w')
+
+            port_file.write("Testlimits=" + str(sizeArr[target_cnt]) + "," + str(sum(sizeArr[:target_cnt])) + ",0")
+            target.write("WriteEnabled=1")
+            target.write(method + str(target_cnt) + ",1,1,0,1,0,0,0,-1,60,0,1,1,0,1:1,1:1,0,-0")
+
         return 0
 
 
@@ -110,5 +102,5 @@ class IOTest():
 
 
 
-    if __name__ == "__main__":
-        main()
+    #if __name__ == "__main__":
+    #main()
