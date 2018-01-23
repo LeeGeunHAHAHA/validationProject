@@ -10,8 +10,13 @@ class IOTest():
     """
     target_function = Function()
     port = None
+    targetNum = None
+    numOfQueue = None
+    queuDepth = None
+    LBA = None
 
-    port, targetNum, numOfQueue, queueDepth,LBA = target_function.setMember()
+    def __init__(self):
+        port, targetNum, numOfQueue, queueDepth,LBA = self.target_function.setMember()
 
     # def GetOption():
     #     '''
