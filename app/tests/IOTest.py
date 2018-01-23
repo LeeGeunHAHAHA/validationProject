@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from random import *
-class IOTest(Testable):
+class IOTest():
 
 
 	def getOption():
