@@ -3,7 +3,12 @@ this module has information about PF, VF.
 testable use objects instantiated from this class.
 author : Kang Won Ji, Lee Geun Ha.
 """
+
+
 class Function:
+    """
+    parent class of VF,PF
+    """
     port = None
     targetNum = None
     numOfQueue = None
@@ -20,6 +25,10 @@ class VirtualFunction(Function):
     numOfPhy = None
 
     def __init__(self, parent):
+        """
+        constructor for initialize numOfPhy
+        :param parent:
+        """
         self.numOfPhy = parent
 
 
