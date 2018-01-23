@@ -1,6 +1,6 @@
 def runTest():
     '''
-
+    This function calls method to reset VF or PF
     :return:
     '''
     return 0
@@ -22,6 +22,7 @@ def pollForTestStatus():
 def getResults():
     ''''
     This function gets results
+    :return:
     '''
     return 0
 
@@ -42,6 +43,7 @@ def getTimings():
 def quarchGlitch():
     ''''
     This function starts glitch
+    :return:
     '''
     return 0
 
