@@ -14,12 +14,16 @@ class Function:
     queueDepth = None
     LBA = 65536
 
+    def __init__(self):
+        self.port = int(input("insert target port to test : "))
+        self.targetNum = int(input("insert target num : "))
+        self.targetNum = int(input("insert number of queue : "))
+        self.targetNum = int(input("insert queue depth: "))
+        self.targetNum = int(input("insert max LBA size: "))
 
     def setMember(self):
         return self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA
 
-    def __init__(self):
-        self.port = input("")
 
 
 class VirtualFunction(Function):
@@ -58,8 +62,10 @@ class PhysicalFunction(Function):
 
 
 
+if __name__ =="__main__":
+    a = Function()
 
-
+    print(a.setMember())
 
 
 
