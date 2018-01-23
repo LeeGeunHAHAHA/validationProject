@@ -1,6 +1,15 @@
 #!/usr/bin/env python3
-from random import *
+from ..Functions import *
+
+
+
 class IOTest():
+    """
+    This class have information about I/O sequential/ I/O random test.
+    When initiate this class, user can run test RunTest method.
+    """
+    target_function = Function()
+    port = None
 
     def GetOption():
         '''
