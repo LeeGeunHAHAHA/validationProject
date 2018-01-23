@@ -4,7 +4,6 @@ testable use objects instantiated from this class.
 author : Kang Won Ji, Lee Geun Ha.
 """
 
-
 class Function:
     """
     parent class of VF,PF
