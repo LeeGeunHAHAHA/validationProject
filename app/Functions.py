@@ -15,6 +15,13 @@ class Function:
     LBA = 65536
 
 
+    def setMember(self):
+        return self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA
+
+    def __init__(self):
+        self.port = input("")
+
+
 class VirtualFunction(Function):
     """
     This class have information about virtual function.

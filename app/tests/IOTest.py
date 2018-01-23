@@ -11,6 +11,8 @@ class IOTest():
     target_function = Function()
     port = None
 
+    port, targetNum, numOfQueue, queueDepth,LBA = target_function.setMember()
+
     # def GetOption():
     #     '''
     #     To initailize member variable, this function requests information to user
