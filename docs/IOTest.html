@@ -28,23 +28,27 @@
     
 <tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="IOTest-MakeQueue"><strong>MakeQueue</strong></a>(target, target2, starttarget, endtarget2, endtarget, port, queuecnt, queuedepth, nvme_file)</dt><dd><tt>This&nbsp;function&nbsp;sets&nbsp;Queue&nbsp;Depth&nbsp;and&nbsp;num&nbsp;of&nbsp;Queue</tt></dd></dl>
+<dl><dt><a name="IOTest-GetOption"><strong>GetOption</strong></a>()</dt><dd><tt>To&nbsp;initailize&nbsp;member&nbsp;variable,&nbsp;this&nbsp;function&nbsp;requests&nbsp;information&nbsp;to&nbsp;user<br>
+:param<br>
+:return</tt></dd></dl>
 
-<dl><dt><a name="IOTest-getOption"><strong>getOption</strong></a>()</dt><dd><tt>To&nbsp;initailize&nbsp;member&nbsp;variable,&nbsp;this&nbsp;function&nbsp;requests&nbsp;information&nbsp;to&nbsp;user</tt></dd></dl>
+<dl><dt><a name="IOTest-MakeQueue"><strong>MakeQueue</strong></a>(target, target2, starttarget, endtarget2, endtarget, port, queuecnt, queuedepth, nvme_file)</dt><dd><tt>This&nbsp;function&nbsp;sets&nbsp;Queue&nbsp;Depth&nbsp;and&nbsp;num&nbsp;of&nbsp;Queue<br>
+:param</tt></dd></dl>
 
-<dl><dt><a name="IOTest-randomTest"><strong>randomTest</strong></a>()</dt><dd><tt>This&nbsp;function&nbsp;runs&nbsp;a&nbsp;random&nbsp;test</tt></dd></dl>
+<dl><dt><a name="IOTest-RandomTest"><strong>RandomTest</strong></a>(numvf, MAXLBA, starttarget, endtarget, position)</dt><dd><tt>This&nbsp;function&nbsp;starts&nbsp;a&nbsp;random&nbsp;test<br>
+:param</tt></dd></dl>
 
-<dl><dt><a name="IOTest-readyReset"><strong>readyReset</strong></a>()</dt><dd><tt>This&nbsp;function&nbsp;sets&nbsp;argument&nbsp;for&nbsp;reset</tt></dd></dl>
+<dl><dt><a name="IOTest-RunTest"><strong>RunTest</strong></a>(numvf, MAXLBA, starttarget, endtarget, position)</dt><dd><tt>This&nbsp;function&nbsp;runs&nbsp;a&nbsp;I/O&nbsp;test<br>
+:param</tt></dd></dl>
 
-<dl><dt><a name="IOTest-runTest"><strong>runTest</strong></a>()</dt><dd><tt>This&nbsp;function&nbsp;runs&nbsp;a&nbsp;I/O&nbsp;test</tt></dd></dl>
+<dl><dt><a name="IOTest-SeqTest"><strong>SeqTest</strong></a>(numvf, MAXLBA, starttarget, endtarget, position)</dt><dd><tt>This&nbsp;function&nbsp;starts&nbsp;a&nbsp;sequential&nbsp;test<br>
+:param</tt></dd></dl>
 
-<dl><dt><a name="IOTest-seqTest"><strong>seqTest</strong></a>()</dt><dd><tt>This&nbsp;function&nbsp;runs&nbsp;a&nbsp;sequential&nbsp;test</tt></dd></dl>
+<dl><dt><a name="IOTest-StopTest"><strong>StopTest</strong></a>(starttarget, endtarget, target1_file, target, port)</dt><dd><tt>This&nbsp;function&nbsp;stops&nbsp;all&nbsp;tests<br>
+:param</tt></dd></dl>
 
-<dl><dt><a name="IOTest-stopTest"><strong>stopTest</strong></a>()</dt><dd><tt>This&nbsp;function&nbsp;stops&nbsp;all&nbsp;tests</tt></dd></dl>
-
-<dl><dt><a name="IOTest-vfEnable"><strong>vfEnable</strong></a>(target2, numvf, target1_file, target2_file)</dt><dd><tt>This&nbsp;function&nbsp;sets&nbsp;number&nbsp;of&nbsp;virtual&nbsp;function<br>
-:param:<br>
-:return:</tt></dd></dl>
+<dl><dt><a name="IOTest-VF_Enable"><strong>VF_Enable</strong></a>(target2, numvf, target1_file, target2_file)</dt><dd><tt>This&nbsp;function&nbsp;sets&nbsp;number&nbsp;of&nbsp;virtual&nbsp;functions<br>
+:param:</tt></dd></dl>
 
 </td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
