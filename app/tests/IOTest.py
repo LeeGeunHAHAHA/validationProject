@@ -1,55 +1,46 @@
 #!/usr/bin/env python3
 from ..Functions import *
 
-
-
 class IOTest():
     """
     This class have information about I/O sequential/ I/O random test.
     When initiate this class, user can run test RunTest method.
     """
-    target_function = Function()
+    target_function1 = None
+    target_function2 = None
+    numOfVF = None
     port = None
     targetNum = None
-    numOfQueue = None
-    queuDepth = None
     LBA = None
 
-    def __init__(self):
-        port, targetNum, numOfQueue, queueDepth,LBA = self.target_function.setMember()
-
-    # def GetOption():
-    #     '''
-    #     To initailize member variable, this function requests information to user
-    #     :param
-    #     :return
-    #     '''
-    port = 0  # tmp
-    target = 1 # tmp
-    target2 = 2  # tmp
-
-    target1_file = open("./iport" + port + "/target" + target, 'w')
-    target2_file = open("./iport" + port + "/target" + target2, 'w')
-    nvme_file = open("./proc/vlun/nvme", 'w')
     port_file = open("/iport0/port", 'w')
-    #numvf
-    #MAXLBA
-    #starttrget
-    #endtarget
-    #position
-    #endtarget2
-    #queuecnt
-    #queuedepth
-    #   return 0
+    nvme_file = open("./proc/vlun/nvme", 'w')
+
+    def __init__(self,Physical_function1,Physical_function2):
+        if Physical_function2 != None:
+            self.target_function2 = Physical_function2
+            port2, targetNum2, LBA2 = self.target_function2.setMember()
+        self.target_function1 = Physical_function1
+        port, targetNum, LBA = self.target_function1.setMember()
+
+        self.numOfVF = Physical_function1.numOfVF
+        if Physical_function2 == None :
+            self.numOfVF += 0
+        else :
+            self.numOfVF += Physical_function2.numOfVF
+
+        target1_file = open("./iport" + port + "/target" + targetNum, 'w')
+        target2_file = open("./iport" + port2 + "/target" + targetNum2, 'w')
 
 
-    #    def ReadyReset():
-    #        '''
-    #        This function sets argument for reset
-    #        :param
-    #        :return
-    #        '''
-    #        return 0
+
+    def GetOption():
+        '''
+        To initailize member variable, this function requests information to user
+        :param
+        :return
+        '''
+
 
 
     def RunTest(numvf, MAXLBA,starttarget, endtarget, position):

@@ -15,11 +15,11 @@ class Function:
     LBA = 65536
 
     def __init__(self):
-        self.port = int(input("insert target port to test : "))
-        self.targetNum = int(input("insert target num : "))
-        self.targetNum = int(input("insert number of queue : "))
-        self.targetNum = int(input("insert queue depth: "))
-        self.targetNum = int(input("insert max LBA size: "))
+        self.port = input("insert target port to test : ")
+        self.targetNum = input("insert target num : ")
+        self.numOfQueue = input("insert number of queue : ")
+        self.queueDepth = input("insert queue depth: ")
+        self.LBA = input("insert max LBA size: ")
 
     def setMember(self):
         return self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA
