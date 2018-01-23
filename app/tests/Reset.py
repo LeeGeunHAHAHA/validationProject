@@ -34,13 +34,20 @@ def doAction():
 
 def getTimings():
     '''
-    This function 
+    This function gets a actual time
     :return:
     '''
     return 0
 
 def quarchGlitch():
+    ''''
+    This function starts glitch
+    '''
     return 0
 
 def stopTest():
+    '''
+    This function stops all reset tests
+    :return:
+    '''
     return 0
