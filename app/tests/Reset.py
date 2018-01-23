@@ -3,16 +3,16 @@ This module has Classes of Reset. Reset has child classes.
 """
 
 class Reset():
-	'''
-	This class is parent class of child classes.
-	'''
+    '''
+    This class is parent class of child classes.
+    '''
 
 
     def runTest():
-	'''
-	This function calls method to reset VF or PF
-	:return:
-	'''
+        '''
+        This function calls method to reset VF or PF
+        :return:
+        '''
         return 0
 
     def startTest():
@@ -65,60 +65,60 @@ class Reset():
         return 0
 
 class SubsystemReset(Reset):
-	'''
-	This class reset function on Subsystem level.
-	'''
+    '''
+    This class reset function on Subsystem level.
+    '''
     def runTest():
         return 0
 
 
 
     def doAction():
-	"""
-	This function request SANBlaze to reset on Subsystem level
-	"""
+        """
+        This function request SANBlaze to reset on Subsystem level
+        """
         return 0
-	
+
 class FLR(Reset):
-	'''
-	This class reset function on FLR level.
-	'''
-	def runTest():
-		return 0
+    '''
+    This class reset function on FLR level.
+    '''
+    def runTest():
+        return 0
 
 
 
-	def doAction():
-	"""
-	This function request SANBlaze to reset on FLR level
-	"""
-		return 0
-	
+    def doAction():
+        """
+        This function request SANBlaze to reset on FLR level
+        """
+        return 0
+
 class ControllerReset(Reset):
-	'''
-	This class reset function on Contrller level.
-	'''
-	def runTest():
-		return 0
+    '''
+    This class reset function on Contrller level.
+    '''
+    def runTest():
+        return 0
 
 
 
-	def doAction():
-	"""
-	This function request SANBlaze to reset on Controller level
-	"""
-		return 0
-	
+    def doAction():
+        """
+        This function request SANBlaze to reset on Controller level
+        """
+        return 0
+
 class PERST(Reset):
-	'''
-	This class reset function on PERST level.
-	'''
-	def runTest():
-		return 0
+    '''
+    This class reset function on PERST level.
+    '''
+    def runTest():
+        return 0
 
 
-	def doAction():
-	"""
-	This function request SANBlaze to reset on PERST level
-	"""
-		return 0
+    def doAction():
+        """
+        This function request SANBlaze to reset on PERST level
+        """
+        return 0

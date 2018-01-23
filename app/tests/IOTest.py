@@ -2,7 +2,7 @@
 from random import *
 class IOTest():
 
-    def getOption():
+    def GetOption():
         '''
         To initailize member variable, this function requests information to user
         :param
@@ -14,28 +14,35 @@ class IOTest():
         target1_file = open("./iport" + port + "/target" + target, 'w')
         target2_file = open("./iport" + port + "/target" + target2, 'w')
         nvme_file = open("./proc/vlun/nvme", 'w')
+        numvf
+        MAXLBA
+        starttrget
+        endtarget
+        position
+        endtarget2
+        queuecnt
+        queuedepth
         return 0
 
 
-    def readyReset():
-        '''
-        This function sets argument for reset
-        :param
-        :return
-        '''
-        return 0
+#    def ReadyReset():
+#        '''
+#        This function sets argument for reset
+#        :param
+#        :return
+#        '''
+#        return 0
 
 
-    def runTest():
+    def RunTest(numvf, MAXLBA,starttarget, endtarget, position):
         '''
             This function runs a I/O test
             :param
-            :return
         '''
         return 0
 
 
-    def vfEnable(target2, numvf,target1_file, target2_file):
+    def VF_Enable(target2, numvf,target1_file, target2_file):
         '''
             This function sets number of virtual functions
             :param:
@@ -45,6 +52,7 @@ class IOTest():
         if (target2 != ""):
             target2_file.write("NumVFs=" + numvf)
         return
+
 
     def MakeQueue(target, target2, starttarget, endtarget2, endtarget, port, queuecnt, queuedepth, nvme_file):
         '''
@@ -71,34 +79,32 @@ class IOTest():
                 queuetarget_file.write("QueueDepth=" + queuedepth)
                 queuetarget_file.write("QueueAlignment=0")
                 nvme_file.write("restart=" + queuetarget)
-        return 0
+        return
 
 
-    def seqTest():
+    def SeqTest(numvf, MAXLBA,starttarget, endtarget, position):
         '''
-            This function runs a sequential test
+            This function starts a sequential test
             :param
-            :return
         '''
         return 0
 
 
-    def randomTest():
+    def RandomTest(numvf, MAXLBA,starttarget, endtarget, position):
         '''
-            This function runs a random test
+            This function starts a random test
             :param
-            :return
         '''
         return 0
 
 
-    def stopTest(starttarget, endtarget, target1_file):
+    def StopTest(starttarget, endtarget, target1_file, target, port):
         '''
             This function stops all tests
             :param
         '''
         for target in range(starttarget, endtarget+1):
-            targetN_file = open("./iport0/target"+target)
+            targetN_file = open("./iport"+port+"/target"+target)
             targetN_file.write("StopTests")
         return 0
 
