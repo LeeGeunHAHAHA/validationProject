@@ -6,7 +6,7 @@ author : Kang Won Ji, Lee Geun Ha.
 
 class Function:
     """
-    parent class of VF,PF
+    parent class of VF,PF.
     """
     port = None
     targetNum = None
@@ -15,13 +15,22 @@ class Function:
     LBA = 65536
 
     def __init__(self):
-        self.port = int(input("insert target port to test : "))
-        self.targetNum = int(input("insert target num : "))
-        self.targetNum = int(input("insert number of queue : "))
-        self.targetNum = int(input("insert queue depth: "))
-        self.targetNum = int(input("insert max LBA size: "))
+        """
+        default constructor to get information from user
+        """
+        self.port = input("insert target port to test : ")
+        self.targetNum = input("insert target num : ")
+        self.numOfQueue = input("insert number of queue : ")
+        self.queueDepth = input("insert queue depth : ")
+        self.LBA = input("insert max LBA size : ")
+
 
     def setMember(self):
+        """
+        To help other class initialize variations
+
+        :return: return tuple of member variations
+        """
         return self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA
 
 
@@ -50,27 +59,31 @@ class PhysicalFunction(Function):
     """
     numOfVF = None
 
+    def __init__(self):
+        super().__init__()
+        self.numOfVF = input("insert number of VF : ")
+
     def vfEnable(self):
         """
         Instantiate as many as NumOfVF.
         :return: list that have instances of VF.
         """
-        VFs=[VirtualFunction(self.targetNum) for i in range(self.numOfVF)]
+        for i in range(self.numOfVF):
+            # do log echo
+            vf = open("/iport"+self.port+"/target"+self.targetNum, "w")
+            vf.write("NumVFs="+self.numOfVF)
 
-        return VFs
 
 
 
 
-if __name__ =="__main__":
+if __name__ == "__main__":
+
     a = Function()
+    b = PhysicalFunction()
 
     print(a.setMember())
-
-
-
-
-
+    print(b.setMember())
 
     #def VF_Enable(target2, numvf,target1_file, target2_file):
     #    '''
