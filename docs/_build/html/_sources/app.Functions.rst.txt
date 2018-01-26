@@ -5,3 +5,5 @@ app\.Functions module
     :members:
     :undoc-members:
     :show-inheritance:
+.. inheritance-diagram:: app.Function
+    :parts: 1
