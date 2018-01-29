@@ -24,29 +24,28 @@ class IOTest():
     #nvme_file = open("./proc/vlun/nvme", 'w')
 
     def __init__(self, Physical_function1, Physical_function2):
-        print("why!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         self.target_function1 = Physical_function1
         self.target_function2 = Physical_function2
 
         self.numOfVF = Physical_function1.numOfVF
         if Physical_function2 == None :  # single
             self.limit_size = 4096
-            self.targetNum_list.append(self.target_function2.targetNum)
         else :     # dual
+            self.targetNum_list.append(self.target_function2.targetNum)
             self.numOfVF += Physical_function2.numOfVF
             self.limit_size = 2048
             self.targetNum_list.append(self.target_function1.targetNum)
+            self.port2 = Physical_function2.port
 
         for i in range(self.numOfVF):
             self.targetNum_list.append(i)
 
         self.port = Physical_function1.port
-        self.port2 = Physical_function2.port
 
         print(self.port, self.port2, self.targetNum_list)
 
         target1_file = open("/iport" + str(self.port) + "/target" + str(self.target_function1.targetNum), 'w')
-        target2_file = open("/iport" + str(self.port2) + "/target" + str(self.target_function2.targetNum), 'w')
+        #target2_file = open("/iport" + str(self.port2) + "/target" + str(self.target_function2.targetNum), 'w')
 
 
     def GetOption(self):

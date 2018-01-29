@@ -21,10 +21,7 @@ def makeTestQueue():
 
 if __name__ == "__main__":
     phy1 = PhysicalFunction()
-    phy2 = PhysicalFunction()
-    print("lsdkfjsldkfjsdkfl")
-    test0 = IOTest.IOTest(phy1, phy2)
-    print("lsdkfjsldkfjsdkfl")
+    test0 = IOTest.IOTest(phy1, None)
     test0.RunTest()
 
 
