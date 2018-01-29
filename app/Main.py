@@ -1,5 +1,6 @@
-import sys
 import os
+import sys
+
 sys.path.insert(0, os.path.abspath('./tests'))
 sys.path.insert(0, os.path.abspath('./'))
 print(sys.path)
@@ -17,6 +18,7 @@ def makeTestQueue():
         IORQueue.append(IOSeq.IOSeq())
 
     return IORQueue
+
 
 
 if __name__ == "__main__":
