@@ -1,6 +1,12 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath('./tests'))
+sys.path.insert(0, os.path.abspath('./'))
+print(sys.path)
+
 from queue import Queue as q
-from tests import *
-import TestRunner
+import IOTest
+from Functions import *
 
 
 def makeTestQueue():
@@ -14,9 +20,12 @@ def makeTestQueue():
 
 
 if __name__ == "__main__":
-    tq = makeTestQueue()
-    testCase = testRunner.Runner(tq)
-    testCase.run()
+    phy1 = PhysicalFunction()
+    phy2 = PhysicalFunction()
+    print("lsdkfjsldkfjsdkfl")
+    test0 = IOTest.IOTest(phy1, phy2)
+    print("lsdkfjsldkfjsdkfl")
+    test0.RunTest()
 
 
 

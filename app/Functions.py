@@ -62,8 +62,8 @@ class Function:
         example :
             >>> somefunction.makeQueue()
         """
-        queue_target = open("/port"+self.port+"target"+self.targettNum, "w")
-        queue_reset = open("/proc/vlun/nvme", "w")
+        queue_target = open("/port"+self.port+"/target"+self.targetNum, "w")
+        queue_reset = open("/home/lee/Desktop/nvme", "w")
         queue_target.write("QueueCount="+self.numOfQueue)
         queue_target.write("QueueDepth="+self.queueDepth)
         queue_target.write("QueueAlignment=0")
@@ -90,7 +90,7 @@ class VirtualFunction(Function):
             >>> vf = VirtualFunction(101)
         """
         #super().__init__()
-        self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA = memTuple
+        self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA, self.numOfPhy = memTuple
         self.numOfPhy = parent
         self.targetNum = target_number
 
@@ -134,7 +134,7 @@ class PhysicalFunction(Function):
         vf = open("/iport"+self.port+"/target"+self.targetNum, "w")
         if self.numOfVF:
             idx = int(input("insert target num of starting VF function"))
-            vf.write("NumVFs="+self.numOfVF)
+            vf.write("NumVFs="+str(self.numOfVF))
             for idx in range(idx+self.numOfVF):
                 self.vfunction_list.append(VirtualFunction(self.getMember(), idx, self.targetNum))
         return self.vfunction_list
@@ -151,7 +151,7 @@ class PhysicalFunction(Function):
         example :
             >>> port, targetNum, numOfQueue, queueDepth, LBA, vfunction_list = somepf.getMember()
         """
-        return self.port, self.targetNum,  self.LBA, self.vfunction_list
+        return self.port, self.targetNum,  self.numOfQueue, self.queueDepth, self.LBA, self.vfunction_list
 
 
 
