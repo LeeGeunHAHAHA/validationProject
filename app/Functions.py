@@ -119,8 +119,9 @@ class PhysicalFunction(Function):
 
     def __init__(self):
         super().__init__()
-        self.numOfVF = input("insert number of VF : ")
+        self.numOfVF = int(input("insert number of VF : "))
         self.vfunction_list = self.vfEnable()
+
 
     def vfEnable(self):
         """ vfEnable method
@@ -150,7 +151,7 @@ class PhysicalFunction(Function):
         example :
             >>> port, targetNum, numOfQueue, queueDepth, LBA, vfunction_list = somepf.getMember()
         """
-        return self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA, self.vfunction_list
+        return self.port, self.targetNum,  self.LBA, self.vfunction_list
 
 
 

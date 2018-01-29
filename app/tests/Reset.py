@@ -1,63 +1,70 @@
 """
 This module has Classes of Reset. Reset has child classes.
 """
+from .Interfaces import *
+from ..Functions import *
 
 class Reset():
     '''
     This class is parent class of child classes.
     '''
 
+    targetIO = list()
+    phyFunc = PhysicalFunction()
+    def __init__(self, functionList):
+        self.targetIO = Resetable(functionList)
 
-    def runTest():
+    def runTest(self):
         '''
         This function calls method to reset VF or PF
         :return:
         '''
         return 0
 
-    def startTest():
+    def startIO(self):
         '''
         This function starts a I/O test
         :return:
         '''
+        self.targetIO.runTest()
         return 0
 
-    def pollForTestStatus():
+    def pollForTestStatus(self):
         '''
         This function checks the status of test
         :return:
         '''
         return 0
 
-    def getResults():
+    def getResults(self):
         ''''
         This function gets results
         :return:
         '''
         return 0
 
-    def doAction():
+    def doAction(self):
         '''
         This function starts the reset test
         :return:
         '''
         return 0
 
-    def getTimings():
+    def getTimings(self):
         '''
         This function gets a actual time
         :return:
         '''
         return 0
 
-    def quarchGlitch():
+    def quarchGlitch(self):
         ''''
         This function starts glitch
         :return:
         '''
         return 0
 
-    def stopTest():
+    def stopIO(self):
         '''
         This function stops all reset tests
         :return:
@@ -68,12 +75,12 @@ class SubsystemReset(Reset):
     '''
     This class reset function on Subsystem level.
     '''
-    def runTest():
+    def runTest(self):
         return 0
 
 
 
-    def doAction():
+    def doAction(self):
         """
         This function request SANBlaze to reset on Subsystem level
         """
@@ -83,12 +90,12 @@ class FLR(Reset):
     '''
     This class reset function on FLR level.
     '''
-    def runTest():
+    def runTest(self):
         return 0
 
 
 
-    def doAction():
+    def doAction(self):
         """
         This function request SANBlaze to reset on FLR level
         """
@@ -98,12 +105,12 @@ class ControllerReset(Reset):
     '''
     This class reset function on Contrller level.
     '''
-    def runTest():
+    def runTest(self):
         return 0
 
 
 
-    def doAction():
+    def doAction(self):
         """
         This function request SANBlaze to reset on Controller level
         """
@@ -113,11 +120,11 @@ class PERST(Reset):
     '''
     This class reset function on PERST level.
     '''
-    def runTest():
+    def runTest(self):
         return 0
 
 
-    def doAction():
+    def doAction(self):
         """
         This function request SANBlaze to reset on PERST level
         """

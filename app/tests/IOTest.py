@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 from ..Functions import *
+from .Interfaces import *
+from .Reset import *
 
-class IOTest():
+
+class IOTest(Testable, Resetable):
     """
     This class have information about I/O sequential/ I/O random test.
     When initiate this class, user can run test RunTest method.
@@ -106,8 +109,6 @@ class IOTest():
             targetN_file = open("./iport"+port+"/target"+target)
             targetN_file.write("StopTests")
         return 0
-
-
 
     #if __name__ == "__main__":
     #main()
