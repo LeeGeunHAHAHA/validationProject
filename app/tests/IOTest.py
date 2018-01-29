@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-from ..Functions import *
-from .Interfaces import *
-from .Reset import *
-
-
-class IOTest(Testable, Resetable):
+#from ..Functions import *
+import random
+class IOTest():
     """
     This class have information about I/O sequential/ I/O random test.
     When initiate this class, user can run test RunTest method.
@@ -13,102 +10,106 @@ class IOTest(Testable, Resetable):
     target_function2 = None
     numOfVF = None
     port = None
+    port2 = None
     targetNum = None
-    LBA = None
-
-    port_file = open("/iport0/port", 'w')
+    MAXLBA = 65536
+    limit_size = None
+    testType = ""   # read, write, compare
+    testPattern = ""   # random, sequential
+    targetNum_list= []
+    port_file = open("./iport0/port", 'w')
     nvme_file = open("./proc/vlun/nvme", 'w')
 
-    def __init__(self,Physical_function1,Physical_function2):
-        if Physical_function2 != None:
-            self.target_function2 = Physical_function2
-            port2, targetNum2, LBA2 = self.target_function2.setMember()
+    def __init__(self, Physical_function1, Physical_function2):
         self.target_function1 = Physical_function1
-        port, targetNum, LBA = self.target_function1.setMember()
+        self.target_function2 = Physical_function2
 
         self.numOfVF = Physical_function1.numOfVF
-        if Physical_function2 == None :
-            self.numOfVF += 0
-        else :
+        if Physical_function2 == None :  # single
+            self.limit_size = 4096
+            self.targetNum_list.append(self.target_function2.targetNum)
+        else :     # dual
             self.numOfVF += Physical_function2.numOfVF
+            self.limit_size = 2048
+            self.targetNum_list.append(self.target_function1.targetNum)
 
-        target1_file = open("./iport" + port + "/target" + targetNum, 'w')
-        target2_file = open("./iport" + port2 + "/target" + targetNum2, 'w')
+        for i in range(self.numOfVF):
+            self.targetNum_list.append(i)
+
+        self.port = Physical_function1.port
+        self.port2 = Physical_function2.port
+        target1_file = open("./iport" + self.port + "/target" + self.target_function1.targetNum, 'w')
+        target2_file = open("./iport" + self.port2 + "/target" + self.target_function2.targetNum, 'w')
 
 
-
-    def GetOption():
+    def GetOption(self):
         '''
         To initailize member variable, this function requests information to user
         :param
         :return
         '''
+        self.testType = input("testType (read | write | compare) : ")
+        self.testPattern = input("testPatter (random | sequential) ")
 
 
-
-    def RunTest(numvf, MAXLBA,starttarget, endtarget, position):
+    def RunTest(self):
         '''
             This function runs a I/O test
             :param
         '''
-        return 0
+        if(self.testPattern == "random"):
+            self.RandomTest()
+        else:
+            self.SeqTest()
 
-
-    def SeqTest(numvf, limit_size,start_target, end_target, position,method,port_file):
+    def SeqTest(self):
         '''
             This function starts a sequential test
             :param
         '''
-        for target_cnt in range(start_target, end_target + 1):
-            target = open("/iport0/target" + str(target_cnt), 'w')
-            port_file.write("Testlimits=" + str(limit_size) + "," + str(target_cnt * limit_size) + ",0")
+        for cnt in range(0,len(self.targetNum_list)):
+            target = open("./iport0/target" + self.targetNum_list[cnt], 'w')
+            self.port_file.write("Testlimits=" + str(self.limit_size) + "," + str(cnt * self.limit_size) + ",0")
             target.write("WriteEnabled=1")
-            target.write(method + str(target_cnt) + ",1,1,0,1,0,0,0,-1,60,0,1,1,0,1:1,1:1,0,-0")
+            target.write(self.testType + self.targetNum_list[cnt] + ",1,1,0,1,0,0,0,-1,60,0,1,1,0,1:1,1:1,0,-0")
 
         return 0
 
 
-    def RandomTest(numvf, MAXLBA,start_target, end_target, position,port_file,method):
+    def RandomTest(self):
         '''
             This function starts a random test
             :param
         '''
-        nsze = MAXLBA
+
         randomSize = 0
         total = 0
         end_cnt = 0
         sizeArr = []
-        #        if (end_target == 29):
-        #            end_cnt = 32  # dual
-        #        else:
-        #            end_cnt = 16  # single
-        for target_cnt in range(end_cnt, 0, -1):
-            tmp = nsze / target_cnt
-            randomSize = randint(int(tmp * 0.8), int(tmp * 1.3))
-            nsze -= randomSize
+        for cnt in range(len(self.targetNum_list), 0, -1):
+            tmp = self.MAXLBA / cnt
+            randomSize = random.randint(int(tmp * 0.8), int(tmp * 1.3))
+            self.MAXLBA -= randomSize
             total += randomSize
             sizeArr.append(randomSize)
 
 
-        for target_cnt in range(start_target, end_target + 1):
-            target = open("/iport0/target" + str(target_cnt), 'w')
-
-            port_file.write("Testlimits=" + str(sizeArr[target_cnt]) + "," + str(sum(sizeArr[:target_cnt])) + ",0")
+        for cnt in range(0,len(self.targetNum_list)):
+            target = open("./iport0/target" + self.targetNum_list[cnt], 'w')
+            self.port_file.write("Testlimits=" + str(sizeArr[cnt]) + "," + str(sum(sizeArr[:cnt])) + ",0")
             target.write("WriteEnabled=1")
-            target.write(method + str(target_cnt) + ",1,1,0,1,0,0,0,-1,60,0,1,1,0,1:1,1:1,0,-0")
+            target.write(self.testType + self.targetNum_list[cnt] + ",1,1,0,1,0,0,0,-1,60,0,1,1,0,1:1,1:1,0,-0")
 
         return 0
 
 
-    def StopTest(starttarget, endtarget, target1_file, target, port):
+    def StopTest(self):
         '''
             This function stops all tests
             :param
         '''
-        for target in range(starttarget, endtarget+1):
-            targetN_file = open("./iport"+port+"/target"+target)
+        for cnt in range(0,len(self.targetNum_list)):
+            targetN_file = open("./iport0/target"+self.targetNum_list[cnt])
             targetN_file.write("StopTests")
         return 0
 
-    #if __name__ == "__main__":
-    #main()
