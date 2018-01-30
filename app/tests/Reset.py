@@ -36,7 +36,15 @@ class Reset():
         This function checks the status of test
         :return:
         '''
-        return 0
+        testCheck = os.system("cat /iport"+port+"/tests/"+testType+"| grep -c Running")
+        if(testCheck):
+            return 1
+        else:
+            testCheck = os.system("cat /iport" + port + "/tests/" + testType + "| grep -c Failed")
+            if(testCheck):
+                return 0
+        return -1
+
 
     def getResults(self):
         ''''
