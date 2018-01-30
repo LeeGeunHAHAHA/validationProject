@@ -8,7 +8,7 @@ from Functions import *
 
 
 def makeIOTestQueue(functionList):
-    testQueue  = q().queue()
+    testQueue  = q().queue
     if input("type y if want to IO test in random : ") =="y":
         print("Not implemented yet")
     else :
@@ -16,10 +16,10 @@ def makeIOTestQueue(functionList):
             testPos = 0
             testLimitSize = functionList[0].LBA
             testQueue.append(IOTest(phy,0))
-            testPos += testLimitSize
+            testPos += int(testLimitSize)
             for vf in phy.vfunction_list:
                 testQueue.append(IOTest(vf,testPos))
-                testPos+=testLimitSize
+                testPos+=int(testLimitSize)
     return testQueue
 
 class IOTest():
@@ -65,9 +65,10 @@ class IOTest():
             :param
         '''
         port_file = open("/iport"+self.port+"/port", 'w')
-        target = open("/iport0/target" + str(self.targetNum, 'w')+" ")
-        port_file.write("Testlimits=" + str(self.limit_size) + "," + str(self.startPos) + ",0 ")
-        target.write("WriteEnabled=1 ")
+        target = open("/iport0/target" + str(self.targetNum), 'w')
+        port_file.write("Testlimits=" + str(self.limit_size) + "," + str(self.startPos) + ",0 \n")
+        target.write("WriteEnabled=1 \n")
+        target = open("/iport0/target" + str(self.targetNum), 'w')
         target.write(self.testType + str(self.targetNum) + ",1,1,0,1,0,0,0,-1,60,0,1,1,0,1:1,1:1,0,-0 ")
 
     def StopTest(self):

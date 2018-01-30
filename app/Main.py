@@ -5,7 +5,9 @@ sys.path.insert(0, os.path.abspath('./tests'))
 sys.path.insert(0, os.path.abspath('./'))
 
 from queue import Queue as q
+
 import IOTest
+import IOEach
 from Functions import *
 
 
@@ -23,9 +25,9 @@ def makeTestQueue():
 if __name__ == "__main__":
     phy1 = PhysicalFunction()
     test0 = IOTest.IOTest(phy1, None)
-    test1 = IOTEst.IOEach([ph1])
+    test1 = IOEach.makeIOTestQueue([phy1])
     test1.pop().RunTest()
-    test0.RunTest()
+    #test0.RunTest()
 
 
 
