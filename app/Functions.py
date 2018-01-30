@@ -64,10 +64,12 @@ class Function:
         """
         queue_target = open("/iport"+self.port+"/target"+self.targetNum, "w")
         queue_reset = open("/proc/vlun/nvme", "w")
-        queue_target.write("QueueCount="+self.numOfQueue)
-        queue_target.write("QueueDepth="+self.queueDepth)
-        queue_target.write("QueueAlignment=0")
-        queue_reset.write(self.targetNum)
+        queue_target = open("/iport"+self.port+"/target"+self.targetNum, "w")
+        queue_target.write("QueueDepth="+self.queueDepth+"\n")
+        queue_target = open("/iport"+self.port+"/target"+self.targetNum, "w")
+        queue_target.write("QueueAlignment=0"+"\n")
+        print(self.targetNum)
+        queue_reset.write("restart="+str(self.targetNum)+" ")
         #do log echo
 
 
@@ -156,11 +158,10 @@ class PhysicalFunction(Function):
 
 
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
 
-    a = Function()
-    b = PhysicalFunction()
+#    a = Function()
+#    b = PhysicalFunction()
 
-    print(a.setMember())
-    print(b.setMember())
-
+  #  print(a.setMember())
+  #  print(b.setMember())
