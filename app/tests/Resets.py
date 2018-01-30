@@ -6,7 +6,23 @@ from ..Functions import *
 import time
 import os
 def queueParser(IOTestQue):
-    FLR(IOTestQueue.pop())
+
+
+
+    phyFuncs = []
+    vFuncs = []
+    for each_test in IOTestQue:
+        if type(each_test.idfunc) == Functions.PhysicalFunction:
+            phyFuncs.append(each_test)
+        else :
+            vFuncs.append(each_test)
+    for i in phyFuncs :
+        print(i.targetNum)
+
+    for i in vFuncs :
+        print(i.targetNum)
+	print("sorry")
+
 
 
 class Reset():
@@ -38,20 +54,17 @@ class Reset():
         This function checks the status of test
         :return:
         '''
-        testCheck = os.system("cat /iport"+port+"/tests/"+testType+"| grep -c Running")
-        if(testCheck):
+        testCheck = os.system("cat /iport" + port + "/tests/" + testType + "| grep -c Running")
+        if (testCheck):
             return 1
         else:
             testCheck = os.system("cat /iport" + port + "/tests/" + testType + "| grep -c Failed")
-            if(testCheck):
+            if (testCheck):
                 return 0
         return -1
 
-
-
-    def sb_print(self,String):
+    def sb_print(self, String):
         print(String)
-
 
     def getResults(self):
         ''''
@@ -59,19 +72,17 @@ class Reset():
         :return:
         '''
         dateString = time.localtime()
-        self.sb_print(dateString+": Test Results:\n")
-        toPrint = os.popen("cat /iport"+port+"/tests/"+testType)
+        self.sb_print(dateString + ": Test Results:\n")
+        toPrint = os.popen("cat /iport" + port + "/tests/" + testType)
         self.sb_print(toPrint)
         dateString = time.localtime()
-        self.sb_print(dateString+": Error Counters\n")
-        toPrint = os.popen("cat /iport"+port+"/target"+target+" | grep Errors")
+        self.sb_print(dateString + ": Error Counters\n")
+        toPrint = os.popen("cat /iport" + port + "/target" + target + " | grep Errors")
         self.sb_print(toPrint)
-        toPrint = os.popen("cat /port"+port+"/target"+target+" | grep -i count")
+        toPrint = os.popen("cat /port" + port + "/target" + target + " | grep -i count")
         self.sb_print(toPrint)
-
 
         return 0
-
 
     def doAction(self):
         '''
@@ -87,7 +98,6 @@ class Reset():
         '''
         return 0
 
-
     def stopIO(self):
         '''
         This function stops all reset tests
@@ -95,49 +105,48 @@ class Reset():
         '''
         return 0
 
+    class FLR(Reset):
+        '''
+        This class reset function on FLR level.
+        '''
+        IO = None
 
+        def __init__(self, IO):
+            self.IO = IO
 
-class FLR(Reset):
-    '''
-    This class reset function on FLR level.
-    '''
-    IO = None
-    def __init__(self, IO):
-        self.IO = IO
-    def runTest(self):
-        self.IO.startTest()
-        localtime = list(time.localtime())    # year, mon, mday, hour, min, sec, wday, yday, isdst
-        log_file = open("nvme_resets_log\_"+localtime[2]+"-"+localtime[1]+"-"+localtime[0]+"\_"+localtime[3]+"\_"+localtime[4]+"\_"+localtime[5])
-        outString = "nvme_reset_timing_flr"
-        status = Reset.pollForTestStatus()
-        if(status == 0):
-            print("Test status is Failed !")
-            Reset.getResults()
-            return
-        elif(status == -1):
-            print("Test status is Passed. This is unexpected !")
-            Reset.getResults()
-            return
-        else:
-            print("Test is still running.")
+        def runTest(self):
+            self.IO.startTest()
+            localtime = list(time.localtime())  # year, mon, mday, hour, min, sec, wday, yday, isdst
+            log_file = open(
+                "nvme_resets_log\_" + localtime[2] + "-" + localtime[1] + "-" + localtime[0] + "\_" + localtime[
+                    3] + "\_" + localtime[4] + "\_" + localtime[5])
+            outString = "nvme_reset_timing_flr"
+            status = Reset.pollForTestStatus()
+            if (status == 0):
+                print("Test status is Failed !")
+                Reset.getResults()
+                return
+            elif (status == -1):
+                print("Test status is Passed. This is unexpected !")
+                Reset.getResults()
+                return
+            else:
+                print("Test is still running.")
 
-        self.doAction()
-        time.sleep(10)
-        #Reset.getTimings()
-        self.IO.stopTest()
-        #Reset.getResults()
+            self.doAction()
+            time.sleep(10)
+            # Reset.getTimings()
+            self.IO.stopTest()
+            # Reset.getResults()
 
+        def doAction(self):
+            """
+            This function request SANBlaze to reset on FLR level
+            """
+            targetNum = self.resetable.targetNum
+            reset = open("/proc/vlun")
+            reset.write("reset_pci_func=" + str(targetNum) + " ")
 
-
-
-    def doAction(self):
-        """
-        This function request SANBlaze to reset on FLR level
-        """
-        targetNum = self.resetable.targetNum
-        reset = open("/proc/vlun")
-        reset.write("reset_pci_func="+str(targetNum)+ " ")
-
-        return 0
+            return 0
 
 
