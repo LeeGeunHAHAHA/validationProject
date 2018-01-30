@@ -50,7 +50,8 @@ class Reset():
         self.targetIO.runTest()
         return 0
 
-    def pollForTestStatus(self): '''
+    def pollForTestStatus(self):
+        '''
         This function checks the status of test
         :return:
         '''
