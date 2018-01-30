@@ -1,5 +1,6 @@
-import sys
 import os
+import sys
+
 sys.path.insert(0, os.path.abspath('./tests'))
 sys.path.insert(0, os.path.abspath('./'))
 print(sys.path)
@@ -19,12 +20,10 @@ def makeTestQueue():
     return IORQueue
 
 
+
 if __name__ == "__main__":
     phy1 = PhysicalFunction()
-    phy2 = PhysicalFunction()
-    print("lsdkfjsldkfjsdkfl")
-    test0 = IOTest.IOTest(phy1, phy2)
-    print("lsdkfjsldkfjsdkfl")
+    test0 = IOTest.IOTest(phy1, None)
     test0.RunTest()
 
 

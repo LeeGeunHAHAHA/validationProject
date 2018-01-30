@@ -62,8 +62,8 @@ class Function:
         example :
             >>> somefunction.makeQueue()
         """
-        queue_target = open("/port"+self.port+"/target"+self.targetNum, "w")
-        queue_reset = open("/home/lee/Desktop/nvme", "w")
+        queue_target = open("/iport"+self.port+"/target"+self.targetNum, "w")
+        queue_reset = open("/proc/vlun/nvme", "w")
         queue_target.write("QueueCount="+self.numOfQueue)
         queue_target.write("QueueDepth="+self.queueDepth)
         queue_target.write("QueueAlignment=0")
