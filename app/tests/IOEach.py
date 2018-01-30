@@ -12,14 +12,14 @@ def makeIOTestQueue(functionList):
     if input("type y if want to IO test in random : ") =="y":
         print("Not implemented yet")
     else :
-        for phy in functionList :
+        for phy in functionList:
             testPos = 0
             testLimitSize = functionList[0].LBA
-            testQueue.append(IOTest(phy,0))
+            testQueue.append(IOTest(phy, 0))
             testPos += int(testLimitSize)
             for vf in phy.vfunction_list:
-                testQueue.append(IOTest(vf,testPos))
-                testPos+=int(testLimitSize)
+                testQueue.append(IOTest(vf, testPos))
+                testPos += int(testLimitSize)
     return testQueue
 
 class IOTest():
@@ -34,6 +34,7 @@ class IOTest():
     testType = ""   # read, write, compare
     port_file = None
     startPos =None
+    idfunc = None
     #nvme_file = open("./proc/vlun/nvme", 'w')
 
     def __init__(self, function, startPos):
@@ -41,6 +42,7 @@ class IOTest():
         self.limit_size = 2048
         self.port = function.port
         self.startPos = startPos
+        self.idfunc = fucntion
 
 
     def GetOption(self):

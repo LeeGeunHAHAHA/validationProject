@@ -1,11 +1,25 @@
 """
 This module has Classes of Reset. Reset has child classes.
 """
+sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.path.abspath('./'))
+from queue import Queue as q
+import IOEach
+from Functions import *
 from .Interfaces import *
 from ..Functions import *
 def queueParser(IOTestQue):
+    phyFuncs = []
+    vFuncs = []
+    for each_test in IOTestQue:
+        if type(each_test) == IOEach.IOTest:
+            phyFuncs.append(each_test)
+        else :
+            vFuncs.append(each_test)
+    print(phyFuncs, vFuncs)
+    return 0
 
-    for test in IOTestQue:
+
 
 class Reset():
     '''
@@ -36,15 +50,7 @@ class Reset():
         This function checks the status of test
         :return:
         '''
-        testCheck = os.system("cat /iport"+port+"/tests/"+testType+"| grep -c Running")
-        if(testCheck):
-            return 1
-        else:
-            testCheck = os.system("cat /iport" + port + "/tests/" + testType + "| grep -c Failed")
-            if(testCheck):
-                return 0
-        return -1
-
+        return 0
 
     def getResults(self):
         ''''
