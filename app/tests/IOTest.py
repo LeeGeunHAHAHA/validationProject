@@ -24,7 +24,6 @@ class IOTest():
     #nvme_file = open("./proc/vlun/nvme", 'w')
 
     def __init__(self, Physical_function1, Physical_function2):
-        print("why!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         self.target_function1 = Physical_function1
         self.target_function2 = Physical_function2
 
