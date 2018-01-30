@@ -10,18 +10,18 @@ import IOEach
 import Functions
 
 def queueParser(IOTestQue):
-	phyFuncs = []
-	vFuncs = []
-	for each_test in IOTestQue:
+    phyFuncs = []
+    vFuncs = []
+    for each_test in IOTestQue:
         if type(each_test.idfunc) == Functions.PhysicalFunction:
             phyFuncs.append(each_test)
         else :
             vFuncs.append(each_test)
-#   for i in phyFuncs :
-#       print(i.targetNum)
+    for i in phyFuncs :
+        print(i.targetNum)
 
-#   for i in vFuncs :
-#       print(i.targetNum)
+    for i in vFuncs :
+        print(i.targetNum)
 
 
 
@@ -30,10 +30,10 @@ class Reset():
     '''
     This class is parent class of child classes.
     '''
-	resetable = None
+    resetable = None
 
-	def __init__(self):
-		return 0
+    def __init__(self):
+        return 0
 
     def runTest(self):
         '''
