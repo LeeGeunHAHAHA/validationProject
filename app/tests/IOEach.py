@@ -42,7 +42,7 @@ class IOTest():
         self.limit_size = 2048
         self.port = function.port
         self.startPos = startPos
-        self.idfunc = fucntion
+        self.idfunc = function
 
 
     def GetOption(self):

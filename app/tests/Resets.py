@@ -1,23 +1,28 @@
 """
 This module has Classes of Reset. Reset has child classes.
 """
+import sys
+import os
 sys.path.insert(0, os.path.abspath('../'))
 sys.path.insert(0, os.path.abspath('./'))
 from queue import Queue as q
 import IOEach
-from Functions import *
-from .Interfaces import *
-from ..Functions import *
+import Functions
+
 def queueParser(IOTestQue):
-    phyFuncs = []
-    vFuncs = []
-    for each_test in IOTestQue:
-        if type(each_test) == IOEach.IOTest:
+	phyFuncs = []
+	vFuncs = []
+	for each_test in IOTestQue:
+        if type(each_test.idfunc) == Functions.PhysicalFunction:
             phyFuncs.append(each_test)
         else :
             vFuncs.append(each_test)
-    print(phyFuncs, vFuncs)
-    return 0
+#   for i in phyFuncs :
+#       print(i.targetNum)
+
+#   for i in vFuncs :
+#       print(i.targetNum)
+
 
 
 
@@ -25,10 +30,10 @@ class Reset():
     '''
     This class is parent class of child classes.
     '''
-    resetable = None
+	resetable = None
 
-    def __init__(self):
-        return 0
+	def __init__(self):
+		return 0
 
     def runTest(self):
         '''
@@ -45,8 +50,7 @@ class Reset():
         self.targetIO.runTest()
         return 0
 
-    def pollForTestStatus(self):
-        '''
+    def pollForTestStatus(self): '''
         This function checks the status of test
         :return:
         '''
