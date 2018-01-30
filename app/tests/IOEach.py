@@ -41,7 +41,6 @@ class IOTest():
         self.limit_size = 2048
         self.port = function.port
         self.startPos = startPos
-        self.port_file = open("/iport"+self.port+"/port", 'w')
 
 
     def GetOption(self):
@@ -65,10 +64,11 @@ class IOTest():
             This function starts a sequential test
             :param
         '''
-        target = open("/iport0/target" + str(self.targetNum, 'w'))
-        self.port_file.write("Testlimits=" + str(self.limit_size) + "," + str(self.startPos) + ",0")
-        target.write("WriteEnabled=1")
-        target.write(self.testType + str(self.targetNum) + ",1,1,0,1,0,0,0,-1,60,0,1,1,0,1:1,1:1,0,-0")
+        port_file = open("/iport"+self.port+"/port", 'w')
+        target = open("/iport0/target" + str(self.targetNum, 'w')+" ")
+        port_file.write("Testlimits=" + str(self.limit_size) + "," + str(self.startPos) + ",0 ")
+        target.write("WriteEnabled=1 ")
+        target.write(self.testType + str(self.targetNum) + ",1,1,0,1,0,0,0,-1,60,0,1,1,0,1:1,1:1,0,-0 ")
 
     def StopTest(self):
         '''
