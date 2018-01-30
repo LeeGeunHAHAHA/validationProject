@@ -136,7 +136,7 @@ class PhysicalFunction(Function):
         vf = open("/iport"+self.port+"/target"+self.targetNum, "w")
         if self.numOfVF:
             idx = int(input("insert target num of starting VF function"))
-            vf.write("NumVFs="+str(self.numOfVF))
+            vf.write("NumVFs="+str(self.numOfVF)+" ")
             for idx in range(idx+self.numOfVF):
                 self.vfunction_list.append(VirtualFunction(self.getMember(), idx, self.targetNum))
         return self.vfunction_list

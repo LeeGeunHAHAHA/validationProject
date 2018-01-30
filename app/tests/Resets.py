@@ -1,27 +1,29 @@
 """
 This module has Classes of Reset. Reset has child classes.
 """
-from .Interfaces import *
-from ..Functions import *
+
 import time
 import os
+import sys
+sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../'))
+
+from queue import Queue as q
+
+import Functions
+import IOEach
 def queueParser(IOTestQue):
+	resetQueue = q().queue
 
 
-
-    phyFuncs = []
-    vFuncs = []
-    for each_test in IOTestQue:
-        if type(each_test.idfunc) == Functions.PhysicalFunction:
-            phyFuncs.append(each_test)
-        else :
-            vFuncs.append(each_test)
-    for i in phyFuncs :
-        print(i.targetNum)
-
-    for i in vFuncs :
-        print(i.targetNum)
-	print("sorry")
+	phyFuncs = dict()
+	vFuncs = dict()
+	for each_test in IOTestQue:
+		if type(each_test.idfunc) == Functions.PhysicalFunction:
+			phyFuncs.setdefault(each_test.targetNum,each_test)
+		else :
+			vFuncs.setdefault(each_test.targetNum,each_test)
+	print(phyFuncs, vFuncs)
 
 
 
@@ -105,7 +107,7 @@ class Reset():
         '''
         return 0
 
-    class FLR(Reset):
+class FLR(Reset):
         '''
         This class reset function on FLR level.
         '''
