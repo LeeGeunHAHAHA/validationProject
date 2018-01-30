@@ -3,16 +3,18 @@ This module has Classes of Reset. Reset has child classes.
 """
 from .Interfaces import *
 from ..Functions import *
+def queueParser(IOTestQue):
+
+    for test in IOTestQue:
 
 class Reset():
     '''
     This class is parent class of child classes.
     '''
+    resetable = None
 
-    targetIO = list()
-    phyFunc = PhysicalFunction()
-    def __init__(self, functionList):
-        self.targetIO = Resetable(functionList)
+    def __init__(self):
+        return 0
 
     def runTest(self):
         '''
@@ -48,7 +50,7 @@ class Reset():
         This function starts the reset test
         :return:
         '''
-        return 0
+        pass
 
     def getTimings(self):
         '''
@@ -79,7 +81,6 @@ class SubsystemReset(Reset):
         return 0
 
 
-
     def doAction(self):
         """
         This function request SANBlaze to reset on Subsystem level
@@ -99,6 +100,10 @@ class FLR(Reset):
         """
         This function request SANBlaze to reset on FLR level
         """
+        targetNum = self.resetable.targetNum
+        reset = open("/proc/vlun")
+        reset.write("reset_pci_func="+str(targetNum)+ " ")
+
         return 0
 
 class ControllerReset(Reset):

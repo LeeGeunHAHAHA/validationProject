@@ -26,6 +26,7 @@ if __name__ == "__main__":
     phy1 = PhysicalFunction()
     test0 = IOTest.IOTest(phy1, None)
     test1 = IOEach.makeIOTestQueue([phy1])
+    ResetQueue = Reset.someFunction(test1)
     test1.pop().RunTest()
     #test0.RunTest()
 
