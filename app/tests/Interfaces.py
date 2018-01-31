@@ -21,3 +21,7 @@ class Testable(object):
 class Resetable(Testable):
     def readyReset(self):
         pass
+
+
+a =[1,2,3]
+a.
