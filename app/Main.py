@@ -28,6 +28,8 @@ if __name__ == "__main__":
     test0 = IOTest.IOTest(phy1, None)
     test1 = IOEach.makeIOTestQueue([phy1])
     ResetQueue = Resets.queueParser(test1)
+	while  ResetQueue :
+		ResetQueue.pop().RunTest()
     test1.pop().RunTest()
     #test0.RunTest()
 
