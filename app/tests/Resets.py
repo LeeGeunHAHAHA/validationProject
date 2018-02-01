@@ -12,10 +12,11 @@ from queue import Queue as q
 
 import Functions
 import IOEach
+
+
+
 def queueParser(IOTestQue):
-	resetQueue = q().queue
-
-
+	resetQueue = q()
 	phyFuncs = dict()
 	vFuncs = dict()
 	for each_test in IOTestQue:
@@ -25,9 +26,9 @@ def queueParser(IOTestQue):
 			vFuncs.setdefault(each_test.targetNum,each_test)
 	print(phyFuncs, vFuncs)
 	for phy in phyFuncs :
-		resetQueue.append(FLR(phyFuncs[phy]))
+		resetQueue.put(FLR(phyFuncs[phy]))
 	for vir in vFuncs :
-		resetQueue.append(FLR(vFuncs[vir]))
+		resetQueue.put(FLR(vFuncs[vir]))
 
 	return resetQueue
 

@@ -9,6 +9,7 @@ from queue import Queue as q
 import IOTest
 import IOEach
 import Resets
+import TestRunner
 from Functions import *
 
 
@@ -28,9 +29,9 @@ if __name__ == "__main__":
     test0 = IOTest.IOTest(phy1, None)
     test1 = IOEach.makeIOTestQueue([phy1])
     ResetQueue = Resets.queueParser(test1)
-	while  ResetQueue :
-		ResetQueue.pop().RunTest()
-    test1.pop().RunTest()
+    testRunner = TestRunner.Runner()
+    testRunner.TestInMultiThread(ResetQueue)
+    #testRunner.TestInSequential(ResetQueue)
     #test0.RunTest()
 
 

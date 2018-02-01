@@ -8,11 +8,9 @@ from Functions import *
 
 
 def makeIOTestQueue(functionList):
-    testQueue  = q().queue
+    testQueue  = q()
 
-    randomSize = 0
     total = 0
-    end_cnt = 0
     sizeArr = []
     numOfFunc = 0
     testPos = 0
@@ -34,10 +32,10 @@ def makeIOTestQueue(functionList):
 
     for phy in functionList:
         print("start position : "+str(testPos))
-#       testQueue.append(IOTest(phy, testPos))
+        testQueue.put(IOTest(phy, testPos))
         testPos += sizeArr.pop()
         for vf in phy.vfunction_list:
-#                testQueue.append(IOTest(vf, testPos))
+            testQueue.put(IOTest(vf, testPos))
             print("start position : "+str(testPos))
             testPos += int(sizeArr.pop())
     return testQueue
