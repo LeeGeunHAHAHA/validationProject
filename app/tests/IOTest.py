@@ -36,7 +36,7 @@ class IOTest():
             self.port2 = Physical_function2.port
 
         self.targetNum_list.append(self.target_function1.targetNum)
-        for i in range(self.numOfVF):
+        for i in range(int(self.numOfVF)):
             self.targetNum_list.append(i)
 
         self.port = Physical_function1.port

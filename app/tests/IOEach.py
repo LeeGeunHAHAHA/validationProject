@@ -7,18 +7,18 @@ from queue import Queue as q
 from Functions import *
 
 
-def makeIOTestQueue(functionList):
+def makeIOTestQueue(functionList,input_list):
     testQueue  = q()
 
     total = 0
     sizeArr = []
     numOfFunc = 0
     testPos = 0
-    MAXLBA = functionList[0].LBA
+    MAXLBA = int(functionList[0].LBA)
     for PF in functionList:
-        numOfFunc += (PF.numOfVF+1)
+        numOfFunc += (int(PF.numOfVF)+1)
 
-    if input("type y if want to IO test in random : ") == "y":
+    if input_list[8] == "y":
         for cnt in range(numOfFunc, 0, -1):
             tmp = MAXLBA / cnt
             randomSize = random.randint(int(tmp * 0.8), int(tmp * 1.3))
@@ -32,10 +32,10 @@ def makeIOTestQueue(functionList):
 
     for phy in functionList:
         print("start position : "+str(testPos))
-        testQueue.put(IOTest(phy, testPos))
+        testQueue.put(IOTest(phy, testPos,input_list))
         testPos += sizeArr.pop()
         for vf in phy.vfunction_list:
-            testQueue.put(IOTest(vf, testPos))
+            testQueue.put(IOTest(vf, testPos,input_list))
             print("start position : "+str(testPos))
             testPos += int(sizeArr.pop())
     return testQueue
@@ -57,21 +57,30 @@ class IOTest():
     port_file = None
     startPos =None
     idfunc = None
+    numOfThreads = None
+    numOfBlocks = None
+
+
    #nvme_file = open("./proc/vlun/nvme", 'w')
-    def __init__(self, function, startPos):
+    def __init__(self, function, startPos,input_list):
         self.targetNum = function.targetNum
         self.limit_size = 2048
         self.port = function.port
         self.startPos = startPos
         self.idfunc = function
-        self.testType = input("testType (read | write | compare) : ")
+        self.testType, self.numOfThreads, self.numOfBlocks = input_list[9:]
+      
+        #self.testType = input("testType (read | write | compare) : ")
+        #self.numOfThreads = input("#Threads : ")
+        #self.numOfBlocks = input("#Blocks : ")    
+
     def RunTest(self):
         '''
             This function runs a I/O test
             :param
         '''
         self.StartTest()
-#   def StartTest(self):
+    def StartTest(self):
         '''
             This function starts a sequential test
             :param
@@ -80,8 +89,8 @@ class IOTest():
         target = open("/iport0/target" + str(self.targetNum), 'w')
         port_file.write("Testlimits=" + str(self.limit_size) + "," + str(self.startPos) + ",0 \n")
         target.write("WriteEnabled=1 \n")
-        target = open("/iport0/target" + str(self.targetNum) + "lun1", 'w')
-        target.write(self.testType + str(self.targetNum) + ",1,1,0,1,0,0,0,-1,60,0,1,1,0,1:1,1:1,0,-0 ")
+        target = open("/iport0/target" + str(self.targetNum), 'w')
+        target.write(self.testType + str(self.targetNum) + ","+str(self.numOfThreads)+","+str(self.numOfBlocks)+",0,1,0,0,0,-1,60,0,1,1,0,1:1,1:1,0,-0 ")
     def StopTest(self):
         '''
             This function stops all tests

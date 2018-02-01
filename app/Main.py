@@ -12,7 +12,7 @@ import Resets
 import TestRunner
 from Functions import *
 
-
+input_list = []
 def makeTestQueue():
     IORQueue = q().queue
     for i in range(10):
@@ -23,14 +23,25 @@ def makeTestQueue():
     return IORQueue
 
 
+def parseInput():
+    input_file = open("./configuration","r")
+    lines = input_file.readlines()
+    i = 0
+    for line in lines:
+        colonPos = line.find(":")
+        input_list.append(line[colonPos+2:-1])
+    input_list[7] = list(map(lambda ns: "lun"+ns,input_list[7].split(" ")) )  # lun list
+    print(input_list)
+    return input_list
 
 if __name__ == "__main__":
-    phy1 = PhysicalFunction()
+    input_list = parseInput()
+    phy1 = PhysicalFunction(input_list)
     test0 = IOTest.IOTest(phy1, None)
-    test1 = IOEach.makeIOTestQueue([phy1])
-    ResetQueue = Resets.queueParser(test1)
-    testRunner = TestRunner.Runner()
-    testRunner.TestInMultiThread(ResetQueue)
+    test1 = IOEach.makeIOTestQueue([phy1],input_list)
+    ResetQueue = Resets.QueueParser(test1)
+    testRunner = TestRunner.Runner(ResetQueue)
+    testRunner.TestInMultiThread()
     #testRunner.TestInSequential(ResetQueue)
     #test0.RunTest()
 

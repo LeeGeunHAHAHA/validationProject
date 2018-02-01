@@ -25,19 +25,14 @@ class Function:
     queueDepth = None
     LBA = 65536
 
-    def __init__(self):
+    def __init__(self,input_list):
         """ constructor for Function class
 
         This Constructor get information by std.in (2018.01.21)
         default constructor to get information from user
 
         """
-        self.port = input("insert target port to test : ")
-        self.targetNum = input("insert target num : ")
-        self.numOfQueue = input("insert number of queue : ")
-        self.queueDepth = input("insert queue depth : ")
-        self.LBA = input("insert max LBA size : ")
-        self.makeQueue()
+        self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA = input_list[:5]
 
 
     def getMember(self):
@@ -83,8 +78,10 @@ class VirtualFunction(Function):
     """
 
     numOfPhy = None
+    enabled_lun= list()
+    lun_list = list()
 
-    def __init__(self, memTuple, target_number, parent):
+    def __init__(self, memTuple, target_number, parent, lun_list):
         """
         constructor for initialize numOfPhy
         :param parent:
@@ -94,6 +91,89 @@ class VirtualFunction(Function):
         #super().__init__()
         self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA, self.numOfPhy = memTuple
         self.numOfPhy = parent
+        self.targetNum = target_number
+        self.enabled_lun = lun_list
+        self.lun_list = self.makeLun()
+
+    def makeLun(self):
+        for l in self.enabled_lun :
+            self.lun_list.append(self.getMember(),self.targetNum+l,self.targetNum)
+        return self.lun_list
+		
+
+
+    def getMember(self):
+        """
+        To help other class initialize variations.
+        In VirtualFunction, it returns mother Physical function
+
+        :return: return tuple of member variations
+        example :
+            >>> port, targetNum, numOfQueue, queueDepth, LBA, numOfphy = somevf.getMember()
+        """
+        return self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA , self.numOfPhy
+
+
+class PhysicalFunction(Function):
+    """
+    * PhysicalFunction class
+    ===========================
+    This class have information about physical function.
+    If user wants to make virtual function, this class make virtual function.
+    """
+    numOfVF = None
+    vfunction_list = list()
+    enabled_lun = list()
+    lun_list= list()
+    idx = None
+    def __init__(self,input_list):
+        super().__init__(input_list)
+        self.numOfVF,self.idx, self.enabled_lun = input_list[5:8]
+        self.vfunction_list = self.vfEnable()
+        self.lun_list = self.makeLun()
+        
+
+    def vfEnable(self):
+        """ vfEnable method
+        Instantiate as many as NumOfVF.
+        :return: list that have instances of VF.
+        example :
+            >>>vflist = somePF.vfEnable()
+        """
+        # do log echo
+        vf = open("/iport"+self.port+"/target"+self.targetNum, "w")
+        if self.numOfVF:
+            vf.write("NumVFs="+str(self.numOfVF)+" ")
+            print(self.idx)
+            for idx in range(int(self.idx)+int(self.numOfVF)):
+                self.vfunction_list.append(VirtualFunction(self.getMember(), self.idx, self.targetNum, self.lun_list))
+        return self.vfunction_list
+
+    def makeLun(self):
+        for l in self.enabled_lun :
+            self.lun_list.append(Lun(self.getMember(),self.targetNum+l,self.targetNum))
+        return self.lun_list
+
+
+    def getMember(self):
+        """
+        To help other class initialize variations.
+        In PhysicalFunction, it returns vfuncrion list
+
+        :return: return tuple of member variations
+        example :
+            >>> port, targetNum, numOfQueue, queueDepth, LBA, vfunction_list = somepf.getMember()
+        """
+        return self.port, self.targetNum,  self.numOfQueue, self.queueDepth, self.LBA, self.vfunction_list
+
+
+class Lun(Function):
+
+    numOfFunc = None
+
+    def __init__(self, memTuple, target_number, parent):
+        self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA, self.numOfPhy = memTuple
+        self.numOfFunc = parent
         self.targetNum = target_number
 
 
@@ -109,59 +189,5 @@ class VirtualFunction(Function):
         return self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA, self.numOfPhy
 
 
-class PhysicalFunction(Function):
-    """
-    * PhysicalFunction class
-    ===========================
-    This class have information about physical function.
-    If user wants to make virtual function, this class make virtual function.
-    """
-    numOfVF = None
-    vfunction_list = list()
-
-    def __init__(self):
-        super().__init__()
-        self.numOfVF = int(input("insert number of VF : "))
-        self.vfunction_list = self.vfEnable()
 
 
-    def vfEnable(self):
-        """ vfEnable method
-        Instantiate as many as NumOfVF.
-        :return: list that have instances of VF.
-        example :
-            >>>vflist = somePF.vfEnable()
-        """
-        # do log echo
-        vf = open("/iport"+self.port+"/target"+self.targetNum, "w")
-        if self.numOfVF:
-            idx = int(input("insert target num of starting VF function"))
-            vf.write("NumVFs="+str(self.numOfVF)+" ")
-            for idx in range(idx+self.numOfVF):
-                self.vfunction_list.append(VirtualFunction(self.getMember(), idx, self.targetNum))
-        return self.vfunction_list
-
-
-
-
-    def getMember(self):
-        """
-        To help other class initialize variations.
-        In PhysicalFunction, it returns vfuncrion list
-
-        :return: return tuple of member variations
-        example :
-            >>> port, targetNum, numOfQueue, queueDepth, LBA, vfunction_list = somepf.getMember()
-        """
-        return self.port, self.targetNum,  self.numOfQueue, self.queueDepth, self.LBA, self.vfunction_list
-
-
-
-
-#if __name__ == "__main__":
-
-#    a = Function()
-#    b = PhysicalFunction()
-
-  #  print(a.setMember())
-  #  print(b.setMember())
