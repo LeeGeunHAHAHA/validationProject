@@ -3,9 +3,9 @@ insert target num : 103
 insert number of queue : 1
 insert queue depth : 1024
 insert max LBA size : 65536
-insert number of VF : 0
+insert number of VF : 1
 insert target num of starting VF function : 0
-insert IOable Vlun : 0 2
+insert IOable Vlun : 1
 type y if want to IO test in random : n
 testType (read | write | compare) : Compare
 #Threads : 16

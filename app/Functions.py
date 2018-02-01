@@ -92,12 +92,13 @@ class VirtualFunction(Function):
         self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA, self.numOfPhy = memTuple
         self.numOfPhy = parent
         self.targetNum = target_number
+        print("!!!!!!!!!!!!!!!!",lun_list)
         self.enabled_lun = lun_list
         self.lun_list = self.makeLun()
 
     def makeLun(self):
         for l in self.enabled_lun :
-            self.lun_list.append(self.getMember(),self.targetNum+l,self.targetNum)
+            self.lun_list.append(Lun(self.getMember(),self.targetNum+l,self.targetNum))
         return self.lun_list
 		
 
@@ -129,8 +130,8 @@ class PhysicalFunction(Function):
     def __init__(self,input_list):
         super().__init__(input_list)
         self.numOfVF,self.idx, self.enabled_lun = input_list[5:8]
-        self.vfunction_list = self.vfEnable()
         self.lun_list = self.makeLun()
+        self.vfunction_list = self.vfEnable()
         
 
     def vfEnable(self):
@@ -146,7 +147,7 @@ class PhysicalFunction(Function):
             vf.write("NumVFs="+str(self.numOfVF)+" ")
             print(self.idx)
             for idx in range(int(self.idx)+int(self.numOfVF)):
-                self.vfunction_list.append(VirtualFunction(self.getMember(), self.idx, self.targetNum, self.lun_list))
+                self.vfunction_list.append(VirtualFunction(self.getMember(), self.idx, self.targetNum, self.enabled_lun))
         return self.vfunction_list
 
     def makeLun(self):

@@ -6,6 +6,35 @@ sys.path.insert(0, os.path.abspath('../'))
 from queue import Queue as q
 from Functions import *
 
+def testInNameSpace(functionList,input_list):
+    testQueue  = q()
+
+    total = 0
+    sizeArr = []
+    numOfFunc = 0
+    testPos = 0
+    MAXLBA = int(functionList[0].LBA)
+
+    for PF in functionList:
+        numOfFunc += (int(PF.numOfVF)+1)
+
+    testLimitSize = int(MAXLBA) / numOfFunc
+    sizeArr = [int(testLimitSize)]*numOfFunc
+    print(testLimitSize)
+
+    for phy in functionList:
+        for lun in phy.lun_list:
+            print("!!!!!!!!!!!!!!!!!!",lun.targetNum)
+            testQueue.put(IOTest(lun, testPos,input_list))
+            testPos += int(sizeArr.pop())
+        for vf in phy.vfunction_list:
+            for vlun in vf.lun_list:
+                print("!!!!!!!!!!!!!!!!!!",vlun.targetNum)
+                testQueue.put(IOTest(vlun, testPos,input_list))
+                print("start position : "+str(testPos))
+                testPos += int(sizeArr.pop())
+            
+    return testQueue
 
 def makeIOTestQueue(functionList,input_list):
     testQueue  = q()
@@ -15,6 +44,9 @@ def makeIOTestQueue(functionList,input_list):
     numOfFunc = 0
     testPos = 0
     MAXLBA = int(functionList[0].LBA)
+
+    if input("insert y if want to IO test in name space level : ")== "y":
+        return testInNameSpace(functionList, input_list)
     for PF in functionList:
         numOfFunc += (int(PF.numOfVF)+1)
 
@@ -34,10 +66,12 @@ def makeIOTestQueue(functionList,input_list):
         print("start position : "+str(testPos))
         testQueue.put(IOTest(phy, testPos,input_list))
         testPos += sizeArr.pop()
+        print(phy.lun_list[0].targetNum)
         for vf in phy.vfunction_list:
             testQueue.put(IOTest(vf, testPos,input_list))
             print("start position : "+str(testPos))
             testPos += int(sizeArr.pop())
+            print(vf.lun_list[0].targetNum)
     return testQueue
 
 
