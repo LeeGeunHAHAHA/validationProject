@@ -22,9 +22,21 @@ class Function:
      ...
     """
     port = None
+    """
+    Port number for tests.
+    """
     targetNum = None
+    """
+    Funtion number for tests.
+    """
     numOfQueue = None
+    """
+    number of queues the function has.
+    """
     queueDepth = None
+    """
+    Depth of queue number the function has.
+    """
     LBA = 65536
 
     def __init__(self,input_dict):
@@ -84,8 +96,17 @@ class VirtualFunction(Function):
     """
 
     numOfPhy = None
+    """
+    This variable indicates root target (physical function).
+    """
     enabled_lun= list()
+    """
+    list of number can IO.
+    """
     lun_list = list()
+    """
+    list of instances 
+    """
 
     def __init__(self, memTuple, target_number, parent, lun_list):
         """
