@@ -1,19 +1,21 @@
 """
+
 :mod: `Physical` 모듈
 =============================================
 ..author : Kang Won Ji, Lee Geun Ha.
 
 description
 ============
-this module has information about PF, VF.
+this module has information about PF, VF and namespace .
 testable use objects instantiated from this class.
 """
 
 class Function:
     """
-    - Function class
-    ===================
-    parent class of VF,PF. All Function class must implement this class.
+
+    Function class
+    ================
+    parent class of VF,PF and Lun All Function class must implement this class.
 
     example :
      >>> class PhysicalFunction(Function)
@@ -26,20 +28,22 @@ class Function:
     LBA = 65536
 
     def __init__(self,input_dict):
-        """ constructor for Function class
 
-        This Constructor get information by std.in (2018.01.21)
-        default constructor to get information from user
+        """
 
+        :param: input_dict -having datas from user input
+        **Constructor for Function class.**
+        **Main program get input from configuration file, And give dictionary having information instance when instantiate.**
         """
         self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA = (input_dict['port'],input_dict['target'],input_dict['#_queue'],input_dict['queue_depth'],input_dict['MAXLBA'])
 
 
     def getMember(self):
         """
-        To help other class initialize variations
+        **To help other class initialize variations.**
 
-        :return: return tuple of member variations
+        :return: return tuple of member variations 
+
         example :
             >>> port, targetNum, numOfQueue, queueDepth, LBA = Function.getMember()
 
@@ -53,7 +57,9 @@ class Function:
         Number of Queue is member variation numOfQueue.
         Queue depth is member variation queueDepth.
         when function object is instantiated, this function is called from constructor.
+
         :return:
+
         example :
             >>> somefunction.makeQueue()
         """
@@ -70,10 +76,11 @@ class Function:
 
 class VirtualFunction(Function):
     """
-    * VirtualFunction class
+    VirtualFunction class
     =========================
     This class have information about virtual function.
     This class have numOfPhy, member variable that indicate parent physical function.
+    And have lun names, and Lun instances.
     """
 
     numOfPhy = None
@@ -82,8 +89,13 @@ class VirtualFunction(Function):
 
     def __init__(self, memTuple, target_number, parent, lun_list):
         """
-        constructor for initialize numOfPhy
-        :param parent:
+        constructor for initialize virtual Function
+
+        :param: memTuple 
+        :param: target_number
+        :param: parent
+        :param: lun_list
+
         example :
             >>> vf = VirtualFunction(101)
         """
@@ -94,6 +106,12 @@ class VirtualFunction(Function):
         self.lun_list = self.makeLun()
 
     def makeLun(self):
+        """
+       
+        Each Functions can have name sapces.
+        This function make Lun instance as many as enabled Lun.
+        And append these instaces lun_list
+        """
         for l in self.enabled_lun :
             self.lun_list.append(Lun(self.getMember(),self.targetNum+l,self.targetNum))
         return self.lun_list
@@ -106,6 +124,7 @@ class VirtualFunction(Function):
         In VirtualFunction, it returns mother Physical function
 
         :return: return tuple of member variations
+
         example :
             >>> port, targetNum, numOfQueue, queueDepth, LBA, numOfphy = somevf.getMember()
         """
@@ -114,8 +133,10 @@ class VirtualFunction(Function):
 
 class PhysicalFunction(Function):
     """
-    * PhysicalFunction class
+
+    PhysicalFunction class
     ===========================
+
     This class have information about physical function.
     If user wants to make virtual function, this class make virtual function.
     """
@@ -132,10 +153,15 @@ class PhysicalFunction(Function):
         
 
     def vfEnable(self):
-        """ vfEnable method
+        """
+
+        vfEnable method
         Instantiate as many as NumOfVF.
+
         :return: list that have instances of VF.
+
         example :
+
             >>>vflist = somePF.vfEnable()
         """
         # do log echo
@@ -147,6 +173,12 @@ class PhysicalFunction(Function):
         return self.vfunction_list
 
     def makeLun(self):
+        """
+       
+        Each Functions can have name sapces.
+        This function make Lun instance as many as enabled Lun.
+        And append these instaces lun_list
+        """
         for l in self.enabled_lun :
             self.lun_list.append(Lun(self.getMember(),self.targetNum+l,self.targetNum))
         return self.lun_list
@@ -158,6 +190,7 @@ class PhysicalFunction(Function):
         In PhysicalFunction, it returns vfuncrion list
 
         :return: return tuple of member variations
+
         example :
             >>> port, targetNum, numOfQueue, queueDepth, LBA, vfunction_list = somepf.getMember()
         """
@@ -165,7 +198,14 @@ class PhysicalFunction(Function):
 
 
 class Lun(Function):
+    """
 
+    Lun class
+    ===========================
+
+    This class have information about Lun function.
+    """
+ 
     numOfFunc = None
 
     def __init__(self, memTuple, target_number, parent):
@@ -176,15 +216,16 @@ class Lun(Function):
 
     def getMember(self):
         """
+
         To help other class initialize variations.
         In VirtualFunction, it returns mother Physical function
 
         :return: return tuple of member variations
+
         example :
             >>> port, targetNum, numOfQueue, queueDepth, LBA, numOfphy = somevf.getMember()
         """
         return self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA, self.numOfPhy
-
 
 
 

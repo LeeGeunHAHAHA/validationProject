@@ -3,8 +3,10 @@ import os
 import sys
 import random
 sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.path.abspath('./'))
 from queue import Queue as q
 from Functions import *
+from Interfaces import *
 
 def testInNameSpace(functionList,input_list):
     testQueue  = q()
@@ -70,7 +72,7 @@ def makeIOTestQueue(functionList,input_list):
 
 
 
-class IOTest():
+class IOTest(Resetable):
     """
     This class have information about I/O sequential/ I/O random test.
     When initiate this class, user can run test RunTest method.

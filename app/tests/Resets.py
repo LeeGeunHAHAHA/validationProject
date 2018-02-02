@@ -13,6 +13,7 @@ from queue import Queue as q
 
 import Functions
 import IOEach
+from Interfaces import *
 
 
 
@@ -36,7 +37,7 @@ def QueueParser(IOTestQue):
 
 
 
-class Reset():
+class Reset(Testable):
     '''
     This class is parent class of child classes.
     '''

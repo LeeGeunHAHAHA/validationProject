@@ -12,16 +12,13 @@ testable use objects instantiated from this class.
 class Testable(object):
 
 
-    def runTest(self):
+    def RunTest(self):
         pass
 
-    def stopTests(self):
+    def StopTests(self):
         pass
 
 class Resetable(Testable):
-    def readyReset(self):
         pass
 
 
-a =[1,2,3]
-a.
