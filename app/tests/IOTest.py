@@ -5,6 +5,17 @@ from subprocess import call
 sys.path.insert(0, os.path.abspath('../'))
 from Functions import *
 import random
+from queue import Queue as q
+
+
+def MakeQueue(physical_list):
+    testQ =q()
+    if(len(physical_list) == 1):
+        testQ.put(IOtest(physical_list[0],None))
+    else:
+        testQ.put(IOtest(physical_list[0],physical_list[1]))
+    return testQ
+
 class IOTest():
     """
     This class have information about I/O sequential/ I/O random test.

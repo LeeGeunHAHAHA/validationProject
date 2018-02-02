@@ -20,18 +20,16 @@ def testInNameSpace(functionList,input_list):
 
     testLimitSize = int(MAXLBA) / numOfFunc
     sizeArr = [int(testLimitSize)]*numOfFunc
-    print(testLimitSize)
 
+    it = iter(input_list)
     for phy in functionList:
+        input_dict = next(it)
         for lun in phy.lun_list:
-            print("!!!!!!!!!!!!!!!!!!",lun.targetNum)
-            testQueue.put(IOTest(lun, testPos,input_list))
+            testQueue.put(IOTest(lun, testPos,input_dict))
             testPos += int(sizeArr.pop())
         for vf in phy.vfunction_list:
             for vlun in vf.lun_list:
-                print("!!!!!!!!!!!!!!!!!!",vlun.targetNum)
-                testQueue.put(IOTest(vlun, testPos,input_list))
-                print("start position : "+str(testPos))
+                testQueue.put(IOTest(vlun, testPos,input_dict))
                 testPos += int(sizeArr.pop())
             
     return testQueue
@@ -45,36 +43,30 @@ def makeIOTestQueue(functionList,input_list):
     testPos = 0
     MAXLBA = int(functionList[0].LBA)
 
-    if input("insert y if want to IO test in name space level : ")== "y":
-        return testInNameSpace(functionList, input_list)
-    for PF in functionList:
-        numOfFunc += (int(PF.numOfVF)+1)
-
-    if input_list[8] == "y":
-        for cnt in range(numOfFunc, 0, -1):
-            tmp = MAXLBA / cnt
-            randomSize = random.randint(int(tmp * 0.8), int(tmp * 1.3))
-            MAXLBA -= randomSize
-            total += randomSize
-            sizeArr.append(randomSize)
-    else:
-        testLimitSize = int(MAXLBA) / numOfFunc
-        sizeArr = [int(testLimitSize)]*numOfFunc
-        print(testLimitSize)
-
+    it = iter(input_list)
     for phy in functionList:
-        print("start position : "+str(testPos))
-        testQueue.put(IOTest(phy, testPos,input_list))
+        input_dict = next(it)
+        if input_dict['is_namespaceLevel'] == "y":
+            return testInNameSpace(functionList, input_list)
+        for PF in functionList:
+            numOfFunc += (int(PF.numOfVF)+1)
+
+        if input_dict['is_random'] == "y":
+            for cnt in range(numOfFunc, 0, -1):
+                tmp = MAXLBA / cnt
+                randomSize = random.randint(int(tmp * 0.8), int(tmp * 1.3))
+                MAXLBA -= randomSize
+                total += randomSize
+                sizeArr.append(randomSize)
+        else:
+            testLimitSize = int(MAXLBA) / numOfFunc
+            sizeArr = [int(testLimitSize)]*numOfFunc
+        testQueue.put(IOTest(phy, testPos,input_dict))
         testPos += sizeArr.pop()
-        print(phy.lun_list[0].targetNum)
         for vf in phy.vfunction_list:
-            testQueue.put(IOTest(vf, testPos,input_list))
-            print("start position : "+str(testPos))
+            testQueue.put(IOTest(vf, testPos,input_dict))
             testPos += int(sizeArr.pop())
-            print(vf.lun_list[0].targetNum)
     return testQueue
-
-
 
 
 
@@ -96,17 +88,14 @@ class IOTest():
 
 
    #nvme_file = open("./proc/vlun/nvme", 'w')
-    def __init__(self, function, startPos,input_list):
+    def __init__(self, function, startPos,input_dict):
         self.targetNum = function.targetNum
         self.limit_size = 2048
         self.port = function.port
         self.startPos = startPos
         self.idfunc = function
-        self.testType, self.numOfThreads, self.numOfBlocks = input_list[9:]
+        self.testType, self.numOfThreads, self.numOfBlocks = (input_dict['testType'],input_dict['#Threads'],input_dict['#Blocks'])
       
-        #self.testType = input("testType (read | write | compare) : ")
-        #self.numOfThreads = input("#Threads : ")
-        #self.numOfBlocks = input("#Blocks : ")    
 
     def RunTest(self):
         '''

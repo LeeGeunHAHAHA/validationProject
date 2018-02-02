@@ -27,7 +27,6 @@ def QueueParser(IOTestQue):
 			phyFuncs.setdefault(target.targetNum,target)
 		else :
 			vFuncs.setdefault(target.targetNum,target)
-	print(phyFuncs, vFuncs)
 	for phy in phyFuncs :
 		resetQueue.put(FLR(phyFuncs[phy]))
 	for vir in vFuncs :

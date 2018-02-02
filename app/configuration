@@ -1,12 +1,31 @@
-insert target port to test : 0
-insert target num : 103
-insert number of queue : 1
-insert queue depth : 1024
-insert max LBA size : 65536
-insert number of VF : 1
-insert target num of starting VF function : 0
-insert IOable Vlun : 1
-type y if want to IO test in random : n
+Test (reset | IO) : IO
+Threads (single | multi) : multi
+port (single | dual) : dual
+===========================================================
+port : 0
+target : 103
+#_queue : 1
+queue_depth : 1024
+MAXLBA : 65536
+#_VF : 0
+VFstartPos ( target num of starting VF function ) : 0 
+target_namespace ( available namespace num ): 1
+is_random ( IO test type in random (y/n) ) : n
+is_namespaceLevel ( IO test in namespace level (y/n) ) : n
+testType (read | write | compare) : Compare
+#Threads : 16
+#Blocks : 1
+============================================================
+port : 0
+target : 111
+#_queue : 1
+queue_depth : 1024
+MAXLBA : 65536
+#_VF : 0
+VFstartPos ( target num of starting VF function ) : 0
+target_namespace (available namespace num) : 1
+is_random ( IO test type in random  (y/n) ) : n
+is_namespaceLevel ( IO test in namespace level (y/n) ) : n
 testType (read | write | compare) : Compare
 #Threads : 16
 #Blocks : 1

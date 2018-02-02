@@ -25,14 +25,14 @@ class Function:
     queueDepth = None
     LBA = 65536
 
-    def __init__(self,input_list):
+    def __init__(self,input_dict):
         """ constructor for Function class
 
         This Constructor get information by std.in (2018.01.21)
         default constructor to get information from user
 
         """
-        self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA = input_list[:5]
+        self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA = (input_dict['port'],input_dict['target'],input_dict['#_queue'],input_dict['queue_depth'],input_dict['MAXLBA'])
 
 
     def getMember(self):
@@ -63,7 +63,6 @@ class Function:
         queue_target.write("QueueDepth="+self.queueDepth+"\n")
         queue_target = open("/iport"+self.port+"/target"+self.targetNum, "w")
         queue_target.write("QueueAlignment=0"+"\n")
-        print(self.targetNum)
         queue_reset.write("restart="+str(self.targetNum)+" ")
         #do log echo
 
@@ -88,11 +87,9 @@ class VirtualFunction(Function):
         example :
             >>> vf = VirtualFunction(101)
         """
-        #super().__init__()
         self.port, self.targetNum, self.numOfQueue, self.queueDepth, self.LBA, self.numOfPhy = memTuple
         self.numOfPhy = parent
         self.targetNum = target_number
-        print("!!!!!!!!!!!!!!!!",lun_list)
         self.enabled_lun = lun_list
         self.lun_list = self.makeLun()
 
@@ -129,7 +126,7 @@ class PhysicalFunction(Function):
     idx = None
     def __init__(self,input_list):
         super().__init__(input_list)
-        self.numOfVF,self.idx, self.enabled_lun = input_list[5:8]
+        self.numOfVF,self.enabled_lun,self.idx = (input_list['#_VF'],input_list['target_namespace'],input_list['VFstartPos'])
         self.lun_list = self.makeLun()
         self.vfunction_list = self.vfEnable()
         
@@ -145,7 +142,6 @@ class PhysicalFunction(Function):
         vf = open("/iport"+self.port+"/target"+self.targetNum, "w")
         if self.numOfVF:
             vf.write("NumVFs="+str(self.numOfVF)+" ")
-            print(self.idx)
             for idx in range(int(self.idx)+int(self.numOfVF)):
                 self.vfunction_list.append(VirtualFunction(self.getMember(), self.idx, self.targetNum, self.enabled_lun))
         return self.vfunction_list
