@@ -3,14 +3,14 @@ Threads (single | multi) : multi
 port (single | dual) : single
 ===========================================================
 port : 0
-target : 103
+target : 102
 #_queue : 1
 queue_depth : 1024
-MAXLBA : 65536
-#_VF : 0
-VFstartPos ( target num of starting VF function ) : 0 
+MAXLBA : 8192
+#_VF : 15
+VFstartPos ( target num of starting VF function ) : 0
 target_namespace ( available namespace num ): 1
-is_random ( IO test type in random (y/n) ) : n
+is_random ( IO test in random (y/n) ) : n
 is_namespaceLevel ( IO test in namespace level (y/n) ) : y
 testType (read | write | compare) : Compare
 #Threads : 16
@@ -24,7 +24,7 @@ MAXLBA : 65536
 #_VF : 0
 VFstartPos ( target num of starting VF function ) : 0
 target_namespace (available namespace num) : 1
-is_random ( IO test type in random  (y/n) ) : n
+is_random ( IO test in random  (y/n) ) : n
 is_namespaceLevel ( IO test in namespace level (y/n) ) : n
 testType (read | write | compare) : Compare
 #Threads : 16

@@ -28,10 +28,11 @@ def QueueParser(IOTestQue):
 			phyFuncs.setdefault(target.targetNum,target)
 		else :
 			vFuncs.setdefault(target.targetNum,target)
-	for phy in phyFuncs :
-		resetQueue.put(FLR(phyFuncs[phy]))
+	#for phy in phyFuncs :
+	#	resetQueue.put(FLR(phyFuncs[phy]))
 	for vir in vFuncs :
 		resetQueue.put(FLR(vFuncs[vir]))
+    
 
 	return resetQueue
 
@@ -41,7 +42,7 @@ class Reset(Testable):
     '''
     This class is parent class of child classes.
     '''
-    IO = None
+    IO = Resetable()
     
 
     def __init__(self,IO):
@@ -54,7 +55,7 @@ class Reset(Testable):
         '''
         return 0
 
-    def StartIO(self):
+    def StartTest(self):
         '''
         This function starts a I/O test
         :return:
@@ -122,7 +123,7 @@ class FLR(Reset):
         '''
         This class reset function on FLR level.
         '''
-        IO = None
+        IO = Resetable()
 
         def __init__(self, IO):
             self.IO = IO
@@ -130,6 +131,7 @@ class FLR(Reset):
         def RunTest(self):
             testName = self.IO.testType + str(self.IO.targetNum)
             self.IO.StartTest()
+            time.sleep(10)
            # localtime = list(time.localtime())  # year, mon, mday, hour, min, sec, wday, yday, isdst
            #log_file = open(
            #    "nvme_resets_log\_" + localtime[2] + "-" + localtime[1] + "-" + localtime[0] + "\_" + localtime[
@@ -151,7 +153,7 @@ class FLR(Reset):
             time.sleep(10)
             # Reset.getTimings()
             self.IO.StopTest()
-            # Reset.getResults()
+            self.GetResults(testName)
 
         def DoAction(self):
             """

@@ -133,9 +133,10 @@ class VirtualFunction(Function):
         This function make Lun instance as many as enabled Lun.
         And append these instaces lun_list
         """
+        tmp_list = []
         for l in self.enabled_lun :
-            self.lun_list.append(Lun(self.getMember(),self.targetNum+l,self.targetNum))
-        return self.lun_list
+            tmp_list.append(Lun(self.getMember(),self.targetNum+l,self.targetNum))
+        return tmp_list
 		
 
 
@@ -189,8 +190,8 @@ class PhysicalFunction(Function):
         vf = open("/iport"+self.port+"/target"+self.targetNum, "w")
         if self.numOfVF:
             vf.write("NumVFs="+str(self.numOfVF)+" ")
-            for idx in range(int(self.idx)+int(self.numOfVF)):
-                self.vfunction_list.append(VirtualFunction(self.getMember(), self.idx, self.targetNum, self.enabled_lun))
+            for i in range(int(self.idx)+int(self.numOfVF)):
+                self.vfunction_list.append(VirtualFunction(self.getMember(), str(i), self.targetNum, self.enabled_lun))
         return self.vfunction_list
 
     def makeLun(self):

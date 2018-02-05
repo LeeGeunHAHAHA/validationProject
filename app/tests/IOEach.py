@@ -27,8 +27,9 @@ def testInNameSpace(functionList, input_list):
     testPos = 0
     MAXLBA = int(functionList[0].LBA)
 
+
     for PF in functionList:
-        numOfFunc += (int(PF.numOfVF) + 1)
+        numOfFunc += (int(PF.numOfVF))
 
     testLimitSize = int(MAXLBA) / numOfFunc
     sizeArr = [int(testLimitSize)] * numOfFunc
@@ -36,14 +37,13 @@ def testInNameSpace(functionList, input_list):
     it = iter(input_list)
     for phy in functionList:
         input_dict = next(it)
-        for lun in phy.lun_list:
-            testQueue.put(IOTest(lun, testPos, input_dict))
-            testPos += int(sizeArr.pop())
+       # for lun in phy.lun_list:
+           # testQueue.put(IOTest(lun, testPos, input_dict))
+        #    testPos += int(sizeArr[0])
         for vf in phy.vfunction_list:
             for vlun in vf.lun_list:
                 testQueue.put(IOTest(vlun, testPos, input_dict))
                 testPos += int(sizeArr.pop())
-
     return testQueue
 
 
@@ -138,7 +138,7 @@ class IOTest():
 
     def __init__(self, function, startPos, input_dict):
         self.targetNum = function.targetNum
-        self.limit_size = 2048
+        self.limit_size = 512
         self.port = function.port
         self.startPos = startPos
         self.idfunc = function
@@ -150,7 +150,7 @@ class IOTest():
 
         '''
         self.StartTest()
-
+        
     def StartTest(self):
         '''
             This function starts a sequential test

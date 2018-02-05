@@ -1,5 +1,6 @@
 from queue import Queue as q
 import threading
+import time
 
 class Runner():
 
@@ -14,6 +15,7 @@ class Runner():
             f = self.testQ.get()
             th = threading.Thread(target=f.RunTest, args=())
             th.start()
+            time.sleep(0.001)
             self.threads.append(th)
 
         for th in self.threads:

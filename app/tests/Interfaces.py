@@ -15,10 +15,13 @@ class Testable(object):
     def RunTest(self):
         pass
 
-    def StopTests(self):
-        pass
 
 class Resetable(Testable):
+
+    def StartTest(self):
+        pass
+
+    def StopTest(self):
         pass
 
 
